@@ -1,4 +1,8 @@
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Playlist {
     public static void main(String[] args) {
@@ -40,6 +44,9 @@ public class Playlist {
                 //   Collections.shuffle(playlist, new Random()); // перетасовка????????????????
                     shufflePlaylist(playlist);
                 } break;
+                case 5: {
+                   startPlaylist(playlist);
+                } break;
                 default: {
                     System.out.println("Неверный ввод, попробуйте еще раз");
                 }
@@ -63,6 +70,7 @@ public class Playlist {
                 "\n2. Отобразить список песен" +
                 "\n3. Удалить песню" +
                 "\n4. Перетасовать песни " +
+                "\n5. Запустить плейлист " +
                 "\n0. Выйти");
     }
 
@@ -118,5 +126,51 @@ public class Playlist {
         System.out.println("Плейлист перетасован");
     }
 
+    public static void startPlaylist(ArrayList<Music> playlist){
+        /*
+         * Прошу ко вниманию! Этот метод просто имитирует запуск песен из плейлиста
+         */
+        int index = 0;
+        System.out.println("Перед тем, как плейлист запустится, выберите порядок проигрывания песен: \n<1 - по умолчанию> <2 - вразброс>");
+        try {
+            int num = new Scanner(System.in).nextInt();
+            if (num == 1){
+                while (index < playlist.size()){
+                    playMusic(playlist, index);
+                    index++;
+                }
+            } else if (num == 2) {
+                shufflePlaylist(playlist); //Воспроизведение музыки вразброс
+                while (index < playlist.size()){
+                    playMusic(playlist, index);
+                    index++;
+                }
+
+            } else {
+                System.out.println("Неверная команда. Вы должны были ввести 1 или 2.");
+            }
+        } catch (InputMismatchException e){
+            System.err.println("Недопустимый символ!\nВнимание! Из-за допущенной вами ошибки плейлист не был запущен!");
+        }
+
+    }
+
+    //1) Метод вспомогательный к startPlaylist
+    public static void printMusic(Music music){
+        System.out.println("Играет " + music + " ...");
+    }
+
+    //2) Еще один вспомогательный метод во избежание дублирования кода
+    public static void playMusic(ArrayList<Music> playlist, int index){
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.schedule(() -> printMusic(playlist.get(index)), 2, TimeUnit.SECONDS);
+        try {
+            scheduledExecutorService.awaitTermination(4, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        scheduledExecutorService.shutdown();
+    }
 
 }
