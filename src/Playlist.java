@@ -4,8 +4,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Playlist {
-    private static boolean isSubscribed = false;
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -37,22 +35,46 @@ public class Playlist {
                     addToPlaylist(playlist);
                 } break;
                 case 2: {
-                    printPlaylist(playlist);
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст");
+                    } else {
+                        printPlaylist(playlist);
+                    }
                 } break;
                 case 3: {
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст, вы не можете удалить");
+                    } else {
                     removeFromPlaylist(playlist);
+                    }
                 } break;
                 case 4: {
-                    shufflePlaylist(playlist);
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст, вы не можете перетасовать");
+                    } else {
+                        shufflePlaylist(playlist);
+                    }
                 } break;
                 case 5: {
-                    sortPlaylistByName(playlist);
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст, вы не можете отсортировать");
+                    } else {
+                        sortPlaylistByName(playlist);
+                    }
                 } break;
                 case 6: {
-                    findMusicByTitle(playlist);
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст, вы не можете найти песню");
+                    } else {
+                        findMusicByTitle(playlist);
+                    }
                 }  break;
                 case 7: {
-                    startPlaylist(playlist);
+                    if (playlist.size() == 0){
+                        System.out.println("Плейлист пуст, вы не можете запустить плейлист");
+                    } else {
+                        startPlaylist(playlist);
+                    }
                 } break;
                 case 8: {
                     askForSubscription();
@@ -188,8 +210,8 @@ public class Playlist {
         scheduledExecutorService.shutdown();
     }
 
-
     public static boolean askForSubscription() {
+        boolean isSubscribed = false;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Для прослушивания песен без рекламы вам нужно подписаться на нашу услугу за 5$ в месяц.");
         System.out.println("Хотите подписаться? (Да / Нет");
