@@ -1,43 +1,34 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Music {
-    private String name;
+    private String title;
     private String artist;
-    private Integer duration;
-
-    public Music() {
-    }
-
-    public Music(String name, String artist, Integer duration) {
-        this.name = name;
+    private int duration;
+    public Music(String title, String artist, int duration) {
+        this.title = title;
         this.artist = artist;
         this.duration = duration;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public String getTitle() {
+        return title;
     }
 
     @Override
     public String toString() {
-        return name + " (artist: " + artist + "), duration: " + duration/60 + " min " + duration%60 + " sec";
+        int minutes = duration / 60;
+        int seconds = duration % 60;
+
+        return title + " - " + artist + " (" + minutes + " мин " + seconds + " сек)";
+
+    }
+
+    public int getDuration() {
+return duration;
+
     }
 }
+
+
