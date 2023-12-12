@@ -18,11 +18,7 @@ public class Music {
 
     @Override
     public String toString() {
-        int minutes = duration / 60;
-        int seconds = duration % 60;
-
-        return title + " - " + artist + " (" + minutes + " мин " + seconds + " сек)";
-
+        return title + " - " + artist + " (" + duration + " сек)";
     }
 
     public int getDuration() {

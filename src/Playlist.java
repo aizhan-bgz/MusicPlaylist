@@ -27,6 +27,7 @@ public class Playlist {
             System.out.println("3. Перетасовать плейлист");
             System.out.println("4. Отсортировать плейлист по названию");
             System.out.println("5. Показать плейлист и общую продолжительность");
+            System.out.println("6. Найти песню по названию");
             System.out.println("0. Выйти");
 
             int choice = scanner.nextInt();
@@ -49,6 +50,8 @@ public class Playlist {
                     break;
                 case 5:
                     displayMusicAndTotalDuration(playlist);
+                case 6:
+                    findMusicByTitle(playlist, scanner);
                     break;
                 case 0:
                     System.out.println("Выход из музыкального плейлиста.");
@@ -60,7 +63,24 @@ public class Playlist {
         } while (true);
     }
 
+    private static void findMusicByTitle(ArrayList<Music> playlist, Scanner scanner) {
+        System.out.println("Введите название песни для поиска:");
+        String titleToFind = scanner.nextLine();
 
+        boolean found = false;
+        for (Music music : playlist) {
+            if (music.getTitle().equalsIgnoreCase(titleToFind)) {
+                System.out.println("Найдена песня:");
+                System.out.println(music);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Песня с названием '" + titleToFind +  "' не найдена в плейлисте.");
+        }
+    }
     private static void addMusic(ArrayList<Music> playlist, Scanner scanner) {
         System.out.println("Введите название песни:");
         String title = scanner.nextLine();
@@ -100,7 +120,6 @@ public class Playlist {
         }
 
         int totalDurationInSeconds = playlist.stream().mapToInt(Music::getDuration).sum();
-
         int minutes = totalDurationInSeconds / 60;
         int seconds = totalDurationInSeconds % 60;
         System.out.println("Общая продолжительность плейлиста: " + minutes + " минут " + seconds + " секунд");
@@ -119,21 +138,16 @@ public class Playlist {
             System.out.println("Некорректный ввод. Пожалуйста, введите Да или Нет.");
             reaction = scanner.nextLine();
         }
-            if ("да".equals(reaction)) {
-                System.out.println("Спасибо за подписку! Теперь вы можете добавлять песни без рекламы.");
-                isSubscribed = true;
-                return true;
-            } else {
-                System.out.println("Вы отказались от подписки. Реклама будет отображаться при добавлении песен.");
-                return false;
+        if ("да".equals(reaction)) {
+            System.out.println("Спасибо за подписку! Теперь вы можете добавлять песни без рекламы.");
+            isSubscribed = true;
+            return true;
+        } else {
+            System.out.println("Вы отказались от подписки. Реклама будет отображаться при добавлении песен.");
+            return false;
 
 
-            }
         }
 
     }
-
-
-
-
-
+}
